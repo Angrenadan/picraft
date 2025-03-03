@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dockerman the Game</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        .game-container {
+            position: relative;
+            width: 600px;
+            height: 200px;
+            border: 2px solid black;
+            overflow: hidden;
+            background-color: #f4f4f4;
+            margin: auto;
+        }
+        .dockerman{
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    width: 40px;
+    height: 40px;
+}
+        .obstacle {
+            position: absolute;
+            bottom: 0;
+            right: -20px;
+            width: 20px;
+            height: 40px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Score: <span id="score">0</span></h2>
+    <h2>High Score: <span id="high-score">0</span></h2>
+    <h1>Dino Mini Game</h1>
+    <p>Press SPACE to jump!</p>
+    <div class="game-container">
+        <img src="dockerman.png" class="dockerman" id="dockerman">
+        <img src="wave.png" class="obstacle" id="obstacle">
+    </div>
+    <script>
+        const dockerman = document.getElementById("dockerman");
+        const obstacle = document.getElementById("obstacle");
+        let isJumping = false;
+let score = 0;
+let speed = 5;
+let highScore = localStorage.getItem("highScore") || 0;
+document.getElementById("high-score").textContent = highScore;
+let difficultyMultiplier = 1;
+let obstacleInterval = 20;
+const scoreElement = document.getElementById("score");
+dockerman.style.bottom = "0px";
+        
+        document.addEventListener("keydown", function(event) {
+            if (event.code === "Space" && !isJumping) {
+                jump();
+            }
+        });
+        
+        function jump() {
+    if (!dockerman.style.bottom) {
+        dockerman.style.bottom = "0px";
+    }
+            isJumping = true;
+            let upInterval = setInterval(() => {
+                if (parseInt(dockerman.style.bottom) >= 100) {
+                    clearInterval(upInterval);
+                    let downInterval = setInterval(() => {
+                        if (parseInt(dockerman.style.bottom) <= 0) {
+                            clearInterval(downInterval);
+                            isJumping = false;
+                        } else {
+                            dockerman.style.bottom = parseInt(dockerman.style.bottom) - 5 + "px";
+                        }
+                    }, 20);
+                } else {
+                    dockerman.style.bottom = parseInt(dockerman.style.bottom) + 5 + "px";
+                }
+            }, 20);
+        }
+        
+        function moveObstacle() {
+            obstacle.style.right = "0px";
+            let moveInterval = setInterval(() => {
+                let moveSpeed = speed;
+                let obstaclePos = parseInt(obstacle.style.right);
+                if (obstaclePos > 600) {
+                    score++;
+                    scoreElement.textContent = score;
+                    if (score % 3 === 0) {
+                        difficultyMultiplier += 0.2; // Increase difficulty multiplier
+                        speed += 1;
+                        obstacleInterval = Math.max(5, obstacleInterval - 2);
+                    }
+                   
+                    scoreElement.textContent = score;
+                    obstacle.style.right = "0px";
+                } else {
+                    obstacle.style.right = obstaclePos + (5 * difficultyMultiplier) + "px";
+                }
+                if (obstaclePos > 500 && obstaclePos < 550 && parseInt(dockerman.style.bottom) < 40) {
+                    if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem("highScore", highScore);
+                    document.getElementById("high-score").textContent = highScore;
+                }
+                alert("Game Over!");
+                    clearInterval(moveInterval);
+                    location.reload();
+                }
+            }, 20);
+        }
+        
+        moveObstacle();
+    </script>
+<button onclick="goToHome()" style="position: absolute; top: 10px; left: 10px; padding: 10px 20px; font-size: 16px;">ΑΝΤΕΠΙΣΩΡΡΡΡΕ</button>
+
+<script>
+    function goToHome() {
+        window.location.href = '/'; // Αλλαγή σε σωστό URL αν χρειάζεται
+    }
+</script>
+</body>
+</html>
