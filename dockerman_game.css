@@ -1,0 +1,77 @@
+/* ========================
+   General Styles 
+   ======================== */
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: black;
+    --border-color: black;
+}
+
+body.dark-mode {
+    --bg-color: #1e1e1e;
+    --text-color: white;
+    --border-color: white;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+/* ========================
+   Game Container
+   ======================== */
+.game-container {
+    position: relative;
+    width: 600px;
+    height: 200px;
+    border: 2px solid var(--border-color);
+    overflow: hidden;
+    background-color: var(--bg-color);
+    margin: auto;
+}
+
+/* ========================
+   Dockerman & Obstacle
+   ======================== */
+.dockerman {
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    width: 40px;
+    height: 40px;
+}
+
+.obstacle {
+    position: absolute;
+    bottom: 0;
+    right: -20px;
+    width: 20px;
+    height: 40px;
+    background-color: red;
+}
+
+/* ========================
+   Buttons
+   ======================== */
+.toggle-theme {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+#header .u-sheet-1 a {
+    margin-right: 20px; /* Αυξάνει την απόσταση μεταξύ των κουμπιών */
+    display: inline-block;
+}
